@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { fetchPublishedPosts, getPostFromNotion } from '../src/lib/notion';
 import fs from 'fs';
 import path from 'path';

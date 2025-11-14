@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
@@ -11,7 +11,28 @@ interface ThemeToggleProps {
 
 export function ModeToggle({ className }: ThemeToggleProps) {
   const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const isDark = resolvedTheme === "dark";
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Return skeleton to avoid hydration mismatch
+  if (!mounted) {
+    return (
+      <div
+        className={cn(
+          "flex w-16 h-8 p-1 rounded-full cursor-pointer transition-all duration-300 bg-gray-200 border border-gray-300",
+          className
+        )}
+      >
+        <div className="flex justify-between items-center w-full">
+          <div className="flex justify-center items-center w-6 h-6 rounded-full bg-gray-300" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
